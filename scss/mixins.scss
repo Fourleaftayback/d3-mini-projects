@@ -1,0 +1,60 @@
+@mixin keyframes($animeName) {
+  @-webkit-keyframes #{$animeName} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animeName} {
+    @content;
+  }
+
+  @-ms-keyframes #{$animeName} {
+    @content;
+  }
+
+  @-o-keyframes #{$animeName} {
+    @content;
+  }
+
+  @keyframes #{$animeName} {
+    @content;
+  }
+}
+
+@mixin animation($str) {
+  webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};
+}
+
+@mixin translate($x, $y) {
+  -webkit-transform: translate($x, $y);
+  -ms-transform: translate($x, $y);
+  transform: translate($x, $y);
+}
+
+@mixin transition($cssName, $time) {
+  -webkit-transition: -webkit-$cssName $time;
+  transition: -webkit-$cssName $time;
+  -o-transition: $cssName $time;
+  transition: $cssName $time;
+  transition: $cssName $time, -webkit-$cssName $time;
+}
+
+@mixin transform($cssProp) {
+  -webkit-transform: $cssProp;
+  -ms-transform: $cssProp;
+  transform: $cssProp;
+}
+
+@mixin displayFlex() {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@mixin filter($values) {
+  -webkit-filter: $values;
+  filter: $values;
+}

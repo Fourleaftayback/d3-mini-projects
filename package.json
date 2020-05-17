@@ -4,7 +4,9 @@
   "description": "D3 mini projects",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-sass": "node-sass scss/index.scss public/css/style.css",
+    "watch-sass": "node-sass -w scss/index.scss public/css/style.css"
   },
   "keywords": [
     "D3",
@@ -19,7 +21,9 @@
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "node-sass": "^4.14.1",
     "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1"
   }
 }
