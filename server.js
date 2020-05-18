@@ -4,6 +4,7 @@ const compression = require('compression');
 const path = require('path');
 
 const pageView = require('./routes/main/pages');
+const apiRequests = require('./routes/api/api');
 
 const app = express();
 
@@ -28,5 +29,6 @@ const middleWares = [
 app.use(middleWares);
 
 pageView(app);
+apiRequests(app);
 
 app.listen(port, () => console.log(`server connected on ${port}`));
