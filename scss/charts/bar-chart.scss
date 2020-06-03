@@ -1,0 +1,17 @@
+.bar-chart-container {
+  margin-top: 3rem;
+  box-shadow: 0 8px 6px -5px black; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+
+  .chart {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+  }
+
+  .tooltip {
+    padding: 0.5rem;
+    background-color: #ef5675;
+    border-radius: 5px;
+    color: rgba(46, 46, 46, 1);
+    font-weight: 500;
+  }
+}
