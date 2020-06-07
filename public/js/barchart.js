@@ -41,6 +41,10 @@ const yAxis = d3
   .ticks(10)
   .tickFormat((d) => `${d} `);
 
+const handleChangeColor = (color) => {
+  return d3.select(event.currentTarget).attr('fill', color);
+};
+
 const transition5s = d3.transition().duration(1000);
 
 svg
@@ -78,6 +82,7 @@ const updateGraph = (data) => {
     .attr('fill', '#7a5195')
     .attr('x', (d) => xScale(d.year))
     .on('mouseover', (d, i) => {
+      handleChangeColor('#ef5675');
       toolTip
         .attr('data-date', d.year)
         .style('opacity', '1.0')
@@ -90,11 +95,14 @@ const updateGraph = (data) => {
 
       const outerMargin = (window.innerWidth - containerWidth) / 2;
       if (i < data.length * 0.75) {
-        return toolTip.style('left', `${outerMargin + xScale(d.year) + 95}px`);
+        return toolTip.style('left', `${outerMargin + xScale(d.year) + 98}px`);
       }
       return toolTip.style('left', `${outerMargin + xScale(d.year) - 55}px`);
     })
-    .on('mouseout', () => toolTip.style('opacity', '0'));
+    .on('mouseout', () => {
+      handleChangeColor('#7a5195');
+      toolTip.style('opacity', '0');
+    });
 
   rects
     .enter()
@@ -108,6 +116,7 @@ const updateGraph = (data) => {
     .attr('x', (d) => xScale(d.year))
     .attr('y', graphHeight)
     .on('mouseover', (d, i) => {
+      handleChangeColor('#ef5675');
       toolTip
         .attr('data-date', d.year)
         .style('opacity', '1.0')
@@ -120,18 +129,25 @@ const updateGraph = (data) => {
 
       const outerMargin = (window.innerWidth - containerWidth) / 2;
       if (i < data.length * 0.75) {
-        return toolTip.style('left', `${outerMargin + xScale(d.year) + 95}px`);
+        return toolTip.style('left', `${outerMargin + xScale(d.year) + 98}px`);
       }
       return toolTip.style('left', `${outerMargin + xScale(d.year) - 55}px`);
     })
-    .on('mouseout', () => toolTip.style('opacity', '0'))
+    .on('mouseout', () => {
+      handleChangeColor('#7a5195');
+      toolTip.style('opacity', '0');
+    })
     .merge(rects)
     .transition(transition5s)
     .attr('y', (d) => yScale(d.value))
     .attr('height', (d) => graphHeight - yScale(d.value));
 
   xAxisGroup.call(
-    xAxis.tickValues(xScale.domain().filter((d, i) => !(i % 10)))
+    xAxis.tickValues(
+      xScale.domain().filter((d, i) => {
+        return findHalfDecade(d);
+      })
+    )
   );
   yAxisGroup.call(yAxis);
 };

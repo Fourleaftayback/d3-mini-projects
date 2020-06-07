@@ -7,6 +7,12 @@ const convertDateToQuarters = (value) => {
   return 'Q4';
 };
 
+const findHalfDecade = (value) => {
+  const dateArr = value.split('-');
+  if (dateArr[0] % 5 === 0 && dateArr[1] === '01') return true;
+  return false;
+};
+
 const sanitizeNumber = (value) => {
   const num = Math.floor(value).toString();
   return num.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
