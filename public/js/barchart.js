@@ -82,7 +82,7 @@ const updateGraph = (data) => {
     .attr('fill', '#7a5195')
     .attr('x', (d) => xScale(d.year))
     .on('mouseover', (d, i) => {
-      handleChangeColor('#ef5675');
+      handleChangeColor('#ffa600');
       toolTip
         .attr('data-date', d.year)
         .style('opacity', '1.0')
@@ -95,12 +95,12 @@ const updateGraph = (data) => {
 
       const outerMargin = (window.innerWidth - containerWidth) / 2;
       if (i < data.length * 0.75) {
-        return toolTip.style('left', `${outerMargin + xScale(d.year) + 98}px`);
+        return toolTip.style('left', `${outerMargin + xScale(d.year) + 100}px`);
       }
       return toolTip.style('left', `${outerMargin + xScale(d.year) - 55}px`);
     })
     .on('mouseout', () => {
-      handleChangeColor('#7a5195');
+      handleChangeColor('#ff6361');
       toolTip.style('opacity', '0');
     });
 
@@ -116,7 +116,7 @@ const updateGraph = (data) => {
     .attr('x', (d) => xScale(d.year))
     .attr('y', graphHeight)
     .on('mouseover', (d, i) => {
-      handleChangeColor('#ef5675');
+      handleChangeColor('#ffa600');
       toolTip
         .attr('data-date', d.year)
         .style('opacity', '1.0')
@@ -129,9 +129,9 @@ const updateGraph = (data) => {
 
       const outerMargin = (window.innerWidth - containerWidth) / 2;
       if (i < data.length * 0.75) {
-        return toolTip.style('left', `${outerMargin + xScale(d.year) + 98}px`);
+        return toolTip.style('left', `${outerMargin + xScale(d.year) + 100}px`);
       }
-      return toolTip.style('left', `${outerMargin + xScale(d.year) - 55}px`);
+      return toolTip.style('left', `${outerMargin + xScale(d.year) - 60}px`);
     })
     .on('mouseout', () => {
       handleChangeColor('#7a5195');

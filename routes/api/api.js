@@ -7,6 +7,6 @@ module.exports = function (app) {
   });
 
   app.route('/api/scatter-plot-data').get((req, res) => {
-    res.status(200).json(scatterPlotData.data);
+    res.status(200).json(scatterPlotData);
   });
 };
