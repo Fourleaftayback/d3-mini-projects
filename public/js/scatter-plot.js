@@ -24,12 +24,22 @@ const yScale = d3.scaleLinear().range([0, graphHeight]);
 const xScale = d3
   .scaleBand()
   .range([0, graphWidth])
-  .paddingInner(0.2)
-  .paddingOuter(0.2);
+  .paddingOuter(0.2)
+  .paddingInner(0.2);
 
 const xAxis = d3.axisBottom(xScale);
 
-const yAxis = d3.axisLeft(yScale).ticks(10);
+const yAxis = d3
+  .axisLeft(yScale)
+  .ticks(10)
+  .tickFormat((d) => {
+    const minutes = Math.floor(d / 60);
+    const seconds = d % 60;
+    const sanitizedSec =
+      seconds.toString().length === 2 ? seconds : `0${seconds}`;
+
+    return `${minutes}:${sanitizedSec}`;
+  });
 
 const xAxisGroup = graph
   .append('g')
@@ -54,7 +64,11 @@ const updateGraph = (data) => {
     .append('circle')
     .attr('cx', (d) => xScale(d.Year))
     .attr('cy', (d) => yScale(d.Seconds))
-    .attr('r', (d) => 5);
+    .attr('r', (d) => 8)
+    .attr('fill', (d) => {
+      if (d.Doping === '') return '#003f5c';
+      return '#bc5090';
+    });
 
   xAxisGroup.call(xAxis);
   yAxisGroup.call(yAxis);
