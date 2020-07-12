@@ -23,4 +23,12 @@ body {
   /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */ }
   .scatter-plot-container .scatter-plot-chart {
     background-color: white;
-    border-radius: 5px; }
+    border-radius: 10px; }
+  .scatter-plot-container .scatter-plot-tooltip {
+    position: absolute;
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: white; }
+    .scatter-plot-container .scatter-plot-tooltip p {
+      margin-bottom: 0.1rem;
+      font-size: 0.8rem; }
