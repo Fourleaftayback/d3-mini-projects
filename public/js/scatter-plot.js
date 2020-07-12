@@ -3,7 +3,7 @@ const chart = document.querySelector('.scatter-plot-chart');
 const containerWidth = 1100;
 const containerHeight = 650;
 
-const margin = { top: 100, right: 50, bottom: 100, left: 100 };
+const margin = { top: 100, right: 50, bottom: 75, left: 100 };
 const graphWidth = containerWidth - margin.left - margin.right;
 const graphHeight = containerHeight - margin.top - margin.bottom;
 
