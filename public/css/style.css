@@ -32,3 +32,24 @@ body {
     .scatter-plot-container .scatter-plot-tooltip p {
       margin-bottom: 0.1rem;
       font-size: 0.8rem; }
+
+.heat-map-container {
+  margin-top: 1rem;
+  box-shadow: 0 8px 6px -5px black;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */ }
+  .heat-map-container .heat-map-chart {
+    background-color: white;
+    border-radius: 10px; }
+
+.title-container {
+  color: white;
+  display: block;
+  margin: auto;
+  margin-top: 2rem; }
+  .title-container h1 {
+    font-size: 1.8rem; }
+  .title-container h3 {
+    font-size: 1.4rem; }
+  .title-container h1,
+  .title-container h3 {
+    text-align: center; }

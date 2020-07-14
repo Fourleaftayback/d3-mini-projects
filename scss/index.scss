@@ -3,3 +3,23 @@
 
 @import './charts/bar-chart.scss';
 @import './charts/scatter-plot.scss';
+@import './charts/heat-map.scss';
+
+// global
+.title-container {
+  color: rgba(255, 255, 255, 1);
+  display: block;
+  margin: auto;
+  margin-top: 2rem;
+  h1 {
+    font-size: 1.8rem;
+  }
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  h1,
+  h3 {
+    text-align: center;
+  }
+}
