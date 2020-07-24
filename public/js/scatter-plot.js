@@ -133,8 +133,7 @@ const updateGraph = (data) => {
     })
     .on('mouseover', (d, i, arr) => {
       d3.select(arr[i]).transition().duration(150).attr('r', 6.5);
-      // console.log('hovering');
-      console.log('dateScale: ' + xScale(new Date(d.Year, 0)));
+
       const leftToolTip =
         xScale(new Date(d.Year, 0)) < 650
           ? xScale(new Date(d.Year, 0)) + 295
