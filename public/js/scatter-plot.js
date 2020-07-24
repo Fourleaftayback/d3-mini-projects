@@ -133,11 +133,13 @@ const updateGraph = (data) => {
     })
     .on('mouseover', (d, i, arr) => {
       d3.select(arr[i]).transition().duration(150).attr('r', 6.5);
-
+      // console.log('hovering');
+      console.log('dateScale: ' + xScale(new Date(d.Year, 0)));
       const leftToolTip =
-        xScale(new Date(d.Year, 0)) < 800
-          ? xScale(new Date(d.Year, 0)) + margin.left + 55
-          : xScale(new Date(d.Year, 0)) - 30;
+        xScale(new Date(d.Year, 0)) < 650
+          ? xScale(new Date(d.Year, 0)) + 295
+          : xScale(new Date(d.Year, 0)) + 95;
+
       toolTip
         .style('opacity', '0.9')
         .style('top', `${margin.top + 65 + yScale(d.Seconds)}px`)
