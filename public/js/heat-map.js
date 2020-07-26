@@ -74,10 +74,27 @@ const colors = d3
     '#9E0142',
   ]);
 
+const legendGroup = svg
+  .append('g')
+  .attr('class', 'legend')
+  .attr('transform', `translate(${margin.left},${margin.top * 0.35})`)
+  .style('font-size', '0.9rem');
+
+const legendTest = d3
+  .legendColor()
+  .shapeWidth(40)
+  .orient('horizontal')
+  .scale(colors);
+
+const heatMapToolTip = d3
+  .select('.heat-map-chart')
+  .append('div')
+  .attr('class', 'heat-map-tooltip')
+  .attr('id', 'heat-map-tooltip')
+  .style('opacity', 0);
+
 const updateGraph = (data) => {
   const { baseTemperature, monthlyVariance } = data;
-
-  console.log(monthlyVariance);
 
   xScale.domain([
     d3.min(monthlyVariance, (d) => new Date(d.year, 0)),
@@ -85,13 +102,12 @@ const updateGraph = (data) => {
   ]);
 
   colors.domain([
-    d3.min(monthlyVariance, (d) => d.variance),
-    d3.max(monthlyVariance, (d) => d.variance),
+    d3.min(monthlyVariance, (d) => baseTemperature + d.variance),
+    d3.max(monthlyVariance, (d) => baseTemperature + d.variance),
   ]);
 
-  // map through each data set to go across
-  //change colors by the variance
-  // the height should be 12 and each step you just start up or down
+  legendGroup.call(legendTest);
+  legendGroup.selectAll('text').text((d) => d.replace(/^.+to /, ''));
 
   const rects = graph.selectAll('rect').data(monthlyVariance);
 
@@ -100,11 +116,34 @@ const updateGraph = (data) => {
     .append('rect')
     .attr('width', graphWidth / 263)
     .attr('height', graphHeight / 12)
-    .attr('fill', (d) => colors(d.variance)) // logic on color based on variance
+    .attr('fill', (d) => colors(baseTemperature + d.variance)) // logic on color based on variance
     .attr('x', (d) => xScale(new Date(d.year, 0)))
     .attr('y', (d) => {
       if (d.month === 1) return 0;
       return (d.month - 1) * barHeight;
+    })
+    .on('mouseover', (d, i, arr) => {
+      const toolTipX =
+        d.year <= 1884
+          ? xScale(new Date(d.year, 0)) + 525
+          : xScale(new Date(d.year, 0)) + 350;
+
+      heatMapToolTip
+        .style('opacity', '0.9')
+        .style('top', `${d.month * barHeight + 215}px`)
+        .style('left', `${toolTipX}px`).html(`
+        <p>${getMonthString(d.month - 1)},  ${d.year}</p>
+        <p>Temperature: ${(baseTemperature + d.variance).toFixed(2)} &#8451;</p>
+        <p>${d.variance.toFixed(2)} &#8451;</p>
+      `);
+
+      heatMapToolTip.style('backGround-color', () =>
+        colors(baseTemperature + d.variance)
+      );
+    })
+    .on('mouseout', (d, i, arr) => {
+      // d3.select(arr[i]).transition().duration(150).attr('r', 4);
+      heatMapToolTip.style('opacity', '0');
     });
 
   yAxisGroup.call(yAxis).style('font-size', '0.8rem');

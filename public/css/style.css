@@ -40,6 +40,14 @@ body {
   .heat-map-container .heat-map-chart {
     background-color: white;
     border-radius: 10px; }
+  .heat-map-container .heat-map-tooltip {
+    position: absolute;
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: black; }
+    .heat-map-container .heat-map-tooltip p {
+      margin-bottom: 0.1rem;
+      font-size: 0.8rem; }
 
 .title-container {
   color: white;
