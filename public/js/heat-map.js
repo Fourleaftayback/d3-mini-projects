@@ -84,7 +84,8 @@ const legendTest = d3
   .legendColor()
   .shapeWidth(40)
   .orient('horizontal')
-  .scale(colors);
+  .scale(colors)
+  .shapePadding(0);
 
 const heatMapToolTip = d3
   .select('.heat-map-chart')
@@ -107,7 +108,15 @@ const updateGraph = (data) => {
   ]);
 
   legendGroup.call(legendTest);
-  legendGroup.selectAll('text').text((d) => d.replace(/^.+to /, ''));
+  legendGroup
+    .selectAll('text')
+    .attr('class', 'legend-text')
+    .text((d, i, arr) => {
+      if (arr.length !== i + 1) {
+        return d.replace(/^.+to /, '');
+      }
+    })
+    .attr('transform', `translate( 40, 33)`);
 
   const rects = graph.selectAll('rect').data(monthlyVariance);
 
@@ -116,7 +125,7 @@ const updateGraph = (data) => {
     .append('rect')
     .attr('width', graphWidth / 263)
     .attr('height', graphHeight / 12)
-    .attr('fill', (d) => colors(baseTemperature + d.variance)) // logic on color based on variance
+    .attr('fill', (d) => colors(baseTemperature + d.variance))
     .attr('x', (d) => xScale(new Date(d.year, 0)))
     .attr('y', (d) => {
       if (d.month === 1) return 0;
@@ -142,7 +151,6 @@ const updateGraph = (data) => {
       );
     })
     .on('mouseout', (d, i, arr) => {
-      // d3.select(arr[i]).transition().duration(150).attr('r', 4);
       heatMapToolTip.style('opacity', '0');
     });
 

@@ -44,7 +44,8 @@ body {
     position: absolute;
     border-radius: 5px;
     padding: 0.5rem;
-    color: black; }
+    color: black;
+    border: 2px solid rgba(103, 128, 159, 0.9); }
     .heat-map-container .heat-map-tooltip p {
       margin-bottom: 0.1rem;
       font-size: 0.8rem; }
