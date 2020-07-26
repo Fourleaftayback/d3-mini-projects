@@ -4,7 +4,7 @@ const description = document.querySelector('#description');
 const containerWidth = 1100;
 const containerHeight = 650;
 
-const margin = { top: 100, right: 25, bottom: 75, left: 100 };
+const margin = { top: 100, right: 50, bottom: 75, left: 100 };
 const graphWidth = containerWidth - margin.left - margin.right;
 const graphHeight = containerHeight - margin.top - margin.bottom;
 const barHeight = graphHeight / 12;
@@ -48,7 +48,10 @@ const xAxis = d3
   .tickFormat(d3.timeFormat('%Y'))
   .ticks(d3.timeYear.every(10));
 
-const yAxisGroup = graph.append('g').attr('id', 'y-axis');
+const yAxisGroup = graph
+  .append('g')
+  .attr('id', 'y-axis')
+  .attr('transform', `translate(-1, 0)`);
 
 const xAxisGroup = graph
   .append('g')

@@ -136,8 +136,8 @@ const updateGraph = (data) => {
 
       const leftToolTip =
         xScale(new Date(d.Year, 0)) < 650
-          ? xScale(new Date(d.Year, 0)) + 295
-          : xScale(new Date(d.Year, 0)) + 95;
+          ? xScale(new Date(d.Year, 0)) + 525
+          : xScale(new Date(d.Year, 0)) + 325;
 
       toolTip
         .style('opacity', '0.9')
