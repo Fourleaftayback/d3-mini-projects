@@ -9,4 +9,8 @@ module.exports = function (app) {
   app.route('/heat-map').get((req, res) => {
     res.render('heat-map');
   });
+
+  app.route('/map-chart').get((req, res) => {
+    res.render('map-chart');
+  });
 };
