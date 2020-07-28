@@ -133,11 +133,11 @@ const updateGraph = (data) => {
     })
     .on('mouseover', (d, i, arr) => {
       d3.select(arr[i]).transition().duration(150).attr('r', 6.5);
-
+      const outerMargin = (window.innerWidth - containerWidth) / 2;
       const leftToolTip =
         xScale(new Date(d.Year, 0)) < 650
-          ? xScale(new Date(d.Year, 0)) + 525
-          : xScale(new Date(d.Year, 0)) + 325;
+          ? xScale(new Date(d.Year, 0)) + outerMargin + 110
+          : xScale(new Date(d.Year, 0)) + outerMargin - 80;
 
       toolTip
         .style('opacity', '0.9')

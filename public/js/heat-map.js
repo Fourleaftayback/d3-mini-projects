@@ -132,10 +132,12 @@ const updateGraph = (data) => {
       return (d.month - 1) * barHeight;
     })
     .on('mouseover', (d, i, arr) => {
+      const outerMargin = (window.innerWidth - containerWidth) / 2;
+
       const toolTipX =
         d.year <= 1884
-          ? xScale(new Date(d.year, 0)) + 525
-          : xScale(new Date(d.year, 0)) + 350;
+          ? xScale(new Date(d.year, 0)) + outerMargin + 108
+          : xScale(new Date(d.year, 0)) + outerMargin - 65;
 
       heatMapToolTip
         .style('opacity', '0.9')
