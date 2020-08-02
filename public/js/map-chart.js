@@ -21,7 +21,39 @@ const graph = svg
 
 const path = d3.geoPath();
 
+const colors = d3.scaleSequential().interpolator(d3.interpolateCool);
+
+const legendGroup = svg
+  .append('g')
+  .attr('class', 'legend')
+  .attr('transform', `translate(${graphWidth * 0.72}, ${margin.top * 1.65})`)
+  .style('font-size', '0.7rem');
+
+const legend = d3
+  .legendColor()
+  .shapeWidth(40)
+  .shapeHeight(10)
+  .orient('horizontal')
+  .scale(colors)
+  .shapePadding(0);
+
 const updateMapGraph = (mapData, graphData) => {
+  colors.domain([
+    d3.min(graphData, (d) => d.bachelorsOrHigher),
+    d3.max(graphData, (d) => d.bachelorsOrHigher),
+  ]);
+
+  legendGroup.call(legend);
+  legendGroup
+    .selectAll('text')
+    .attr('class', 'legend-text')
+    .text((d, i, arr) => {
+      if (arr.length !== i + 1) {
+        return `${Math.round(d)}%`;
+      }
+    })
+    .attr('transform', `translate(42, 25)`);
+  // TODO: add border in the middle of the legend
   graph
     .attr('class', 'counties')
     .selectAll('path')
@@ -29,16 +61,9 @@ const updateMapGraph = (mapData, graphData) => {
     .enter()
     .append('path')
     .attr('class', 'county')
-    .attr('fill', function (d) {
-      // var result = education.filter(function (obj) {
-      //   return obj.fips == d.id;
-      // });
-      // if (result[0]) {
-      //   return color(result[0].bachelorsOrHigher);
-      // }
-      // //could not find a matching fips id in the data
-      // return color(0);
-      'black';
+    .attr('fill', (d) => {
+      const countyData = graphData.filter((item) => item.fips === d.id);
+      return colors(countyData[0].bachelorsOrHigher || 'gray');
     })
     .attr('d', path);
 };

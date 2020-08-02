@@ -80,7 +80,7 @@ const legendGroup = svg
   .attr('transform', `translate(${margin.left},${margin.top * 0.35})`)
   .style('font-size', '0.9rem');
 
-const legendTest = d3
+const legend = d3
   .legendColor()
   .shapeWidth(40)
   .orient('horizontal')
@@ -107,7 +107,7 @@ const updateGraph = (data) => {
     d3.max(monthlyVariance, (d) => baseTemperature + d.variance),
   ]);
 
-  legendGroup.call(legendTest);
+  legendGroup.call(legend);
   legendGroup
     .selectAll('text')
     .attr('class', 'legend-text')
