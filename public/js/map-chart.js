@@ -19,6 +19,17 @@ const graph = svg
   .attr('height', graphHeight)
   .attr('transform', `translate(${margin.left * 1.9}, ${margin.top})`);
 
+svg
+  .append('text')
+  .attr('x', containerWidth / 2)
+  .attr('y', `${margin.top * 1.1}`)
+  .attr('id', 'Description')
+  .attr('text-anchor', 'middle')
+  .style('font-size', '1rem')
+  .attr('fill', 'rgba(98, 81, 197, 1)')
+  .style('font-weight', 500)
+  .text("Percentage of adults with a bachelor's degree or higher");
+
 const path = d3.geoPath();
 
 const colors = d3.scaleSequential().interpolator(d3.interpolateCool);
@@ -37,6 +48,13 @@ const legend = d3
   .scale(colors)
   .shapePadding(0);
 
+const mapChartToolTip = d3
+  .select('.map-chart-chart')
+  .append('div')
+  .attr('class', 'map-chart-tooltip')
+  .attr('id', 'map-chart-tooltip')
+  .style('opacity', 0);
+
 const updateMapGraph = (mapData, graphData) => {
   colors.domain([
     d3.min(graphData, (d) => d.bachelorsOrHigher),
@@ -53,7 +71,7 @@ const updateMapGraph = (mapData, graphData) => {
       }
     })
     .attr('transform', `translate(42, 25)`);
-  // TODO: add border in the middle of the legend
+
   graph
     .attr('class', 'counties')
     .selectAll('path')
@@ -65,7 +83,24 @@ const updateMapGraph = (mapData, graphData) => {
       const countyData = graphData.filter((item) => item.fips === d.id);
       return colors(countyData[0].bachelorsOrHigher || 'gray');
     })
-    .attr('d', path);
+    .attr('d', path)
+    .on('mouseover', (d, i, arr) => {
+      const countyData = graphData.filter((item) => item.fips === d.id);
+      const data = countyData[0];
+      mapChartToolTip.transition().duration(150);
+      mapChartToolTip
+        .style('opacity', '0.9')
+        .style('top', `${d3.event.pageY - 25}px`)
+        .style('left', `${d3.event.pageX + 25}px`)
+        .style('color', 'white')
+        .style('backGround-color', () => colors(data.bachelorsOrHigher)).html(`
+        <p>${data.area_name}, ${data.state}</p>
+        <p>College+: ${data.bachelorsOrHigher}%</p>
+      `);
+    })
+    .on('mouseout', () =>
+      mapChartToolTip.transition().duration(50).style('opacity', '0.0')
+    );
 };
 
 window.addEventListener('load', async () => {

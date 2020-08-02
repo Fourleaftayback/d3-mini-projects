@@ -62,7 +62,7 @@ body {
     border-radius: 5px;
     padding: 0.5rem;
     color: black;
-    border: 2px solid rgba(103, 128, 159, 0.9); }
+    border: 2px solid white; }
     .map-chart-container .map-chart-tooltip p {
       margin-bottom: 0.1rem;
       font-size: 0.8rem; }
