@@ -13,4 +13,8 @@ module.exports = function (app) {
   app.route('/map-chart').get((req, res) => {
     res.render('map-chart');
   });
+
+  app.route('/tree-map').get((req, res) => {
+    res.render('tree-map');
+  });
 };
