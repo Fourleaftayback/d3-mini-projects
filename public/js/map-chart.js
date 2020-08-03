@@ -8,7 +8,7 @@ const graphWidth = containerWidth - margin.left - margin.right;
 const graphHeight = containerHeight - margin.top - margin.bottom;
 
 const svg = d3
-  .select('.map-chart-chart')
+  .select(chart)
   .append('svg')
   .attr('width', containerWidth)
   .attr('height', containerHeight);
