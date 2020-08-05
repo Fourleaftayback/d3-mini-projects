@@ -1,8 +1,14 @@
 extends ../components/layouts/main.pug
 
 block content
-  .title-container 
-    h1#title The title here possibly
+  .graph-selector-container
+    ul.nav.nav-pills.navtab-bg.nav-justified
+      li.nav-item.active
+        a.nav-link(href='#') Graph 1
+      li.nav-item
+        a.nav-link(href='#') Graph 2
+      li.nav-item
+        a.nav-link(href='#') Graph 3    
   .tree-map-container
     .tree-map-chart   
   script(src='/js/main.js')

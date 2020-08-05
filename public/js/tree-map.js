@@ -3,7 +3,7 @@ const chart = document.querySelector('.tree-map-chart');
 const containerWidth = 1100;
 const containerHeight = 650;
 
-const margin = { top: 100, right: 50, bottom: 25, left: 50 };
+const margin = { top: 75, right: 50, bottom: 25, left: 50 };
 const graphWidth = containerWidth - margin.left - margin.right;
 const graphHeight = containerHeight - margin.top - margin.bottom;
 
@@ -47,7 +47,19 @@ const legend = d3
 
 //TODO: set up title and draw based on data
 
+const description = svg
+  .append('text')
+  .attr('x', containerWidth / 4)
+  .attr('y', 45)
+  .attr('id', 'title')
+  .attr('text-anchor', 'middle')
+  .style('font-size', '1.20rem')
+  .attr('fill', '#5E4FA2');
+
 const updateGraph = (data) => {
+  console.log(data);
+
+  description.text(`${data.name} by categories`);
   const categories = data.children.map((item) => item.name);
 
   colors.domain(d3.extent(categories));
