@@ -3,12 +3,9 @@ extends ../components/layouts/main.pug
 block content
   .graph-selector-container
     ul.nav.nav-pills.navtab-bg.nav-justified
-      li.nav-item.active
-        a.nav-link(href='#') Graph 1
-      li.nav-item
-        a.nav-link(href='#') Graph 2
-      li.nav-item
-        a.nav-link(href='#') Graph 3    
+      li.nav-item.btn.btn-outline-info.mx-4.active.graph-picker-button Kick Starter Graph
+      li.nav-item.btn.btn-outline-info.mx-4.graph-picker-button Movie Graph
+      li.nav-item.btn.btn-outline-info.mx-4.graph-picker-button Game Sales Graph  
   .tree-map-container
     .tree-map-chart   
   script(src='/js/main.js')

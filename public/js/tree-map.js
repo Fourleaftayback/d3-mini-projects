@@ -1,4 +1,6 @@
 const chart = document.querySelector('.tree-map-chart');
+const buttons = document.querySelectorAll('.graph-picker-button');
+const allData = [];
 
 const containerWidth = 1100;
 const containerHeight = 650;
@@ -57,19 +59,32 @@ const description = svg
   .attr('fill', '#5E4FA2');
 
 const updateGraph = (data) => {
-  console.log(data);
-
   description.text(`${data.name} by categories`);
   const categories = data.children.map((item) => item.name);
 
   colors.domain(d3.extent(categories));
 
+  // remove
+  graph.selectAll('rect').remove();
+  graph.selectAll('text').remove();
+
   const root = d3.hierarchy(data).sum((d) => d.value);
   d3.treemap().size([graphWidth, graphHeight]).padding(2)(root);
 
-  graph
-    .selectAll('rect')
-    .data(root.leaves())
+  const rects = graph.selectAll('rect').data(root.leaves());
+
+  const texts = graph.selectAll('text').data(root.leaves());
+
+  // update
+  // rects
+  //   .attr('x', (d) => d.x0)
+  //   .attr('y', (d) => d.y0)
+  //   .attr('width', (d) => d.x1 - d.x0)
+  //   .attr('height', (d) => d.y1 - d.y0)
+  //   .style('stroke', 'black')
+  //   .style('fill', (d) => colors(d.data.category));
+
+  rects
     .enter()
     .append('rect')
     .attr('class', 'rect-block')
@@ -80,9 +95,7 @@ const updateGraph = (data) => {
     .style('stroke', 'black')
     .style('fill', (d) => colors(d.data.category));
 
-  graph
-    .selectAll('text')
-    .data(root.leaves())
+  texts
     .enter()
     .append('text')
     .attr('class', 'rect-text')
@@ -108,16 +121,49 @@ const updateGraph = (data) => {
   //   .attr('transform', `translate( 40, 33)`);
 };
 
+const handleButtonClick = (e) => {
+  buttons.forEach((item) => {
+    item.classList.remove('active');
+  });
+  let element = e.target;
+  element.classList.add('active');
+  let data;
+  const graphType = e.target.textContent.replace(/\s.+$/, '');
+
+  if (graphType === 'Movie') {
+    data = allData.filter((item) => item.name === 'Movies');
+  }
+  if (graphType === 'Game') {
+    data = allData.filter(
+      (item) => item.name == 'Video Game Sales Data Top 100'
+    );
+  }
+  if (graphType === 'Kick') {
+    data = allData.filter((item) => item.name === 'Kickstarter');
+  }
+  updateGraph(data[0]);
+};
+
+buttons.forEach((item) => {
+  item.addEventListener('click', (e) => handleButtonClick(e));
+});
+
 window.addEventListener('load', async () => {
   const kickStarterData = await getChartData(
     'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json'
   );
+
+  allData.push(kickStarterData);
+
   const movieData = await getChartData(
     'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json'
   );
+  allData.push(movieData);
   const gameSalesData = await getChartData(
     ' https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json'
   );
 
-  updateGraph(movieData);
+  allData.push(gameSalesData);
+
+  updateGraph(kickStarterData);
 });
