@@ -24,17 +24,20 @@ const graph = svg
 const colors = d3
   .scaleOrdinal()
   .range([
-    '#5E4FA2',
-    '#3288BD',
-    '#489274',
-    '#66C2A5',
-    '#ABDDA4',
-    '#E6F598',
-    '#FDAE61',
-    '#F46D43',
-    '#D53E4F',
-    '#9E0142',
-    '#5F063A',
+    '#680EF2',
+    '#2D0EF2',
+    '#0E76F2',
+    '#0EF2F2',
+    '#0EF291',
+    '#0EF223',
+    '#8AF20E',
+    '#DAF20E',
+    '#F2DD0E',
+    '#F2A90E',
+    '#F2760E',
+    '#F2230E',
+    '#F20EA3',
+    '#DD0EF2',
   ]);
 
 const legendGroup = svg
@@ -61,6 +64,48 @@ const description = svg
   .style('font-size', '1.20rem')
   .attr('fill', '#5E4FA2');
 
+const treeChartToolTip = d3
+  .select('.tree-map-chart')
+  .append('div')
+  .attr('class', 'tree-map-chart-tooltip')
+  .attr('id', 'tree-map-chart-tooltip')
+  .style('opacity', 0);
+
+const wordWrap = (text, width) => {
+  text.each(function () {
+    var text = d3.select(this),
+      words = text.text().split(/\s+/).reverse(),
+      word,
+      line = [],
+      lineNumber = 0,
+      lineHeight = 1.1, // ems
+      x = text.attr('x'),
+      y = text.attr('y'),
+      dy = 0, //parseFloat(text.attr("dy")),
+      tspan = text
+        .text(null)
+        .append('tspan')
+        .attr('x', x)
+        .attr('y', y)
+        .attr('dy', dy + 'em');
+    while ((word = words.pop())) {
+      line.push(word);
+      tspan.text(line.join(' '));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(' '));
+        line = [word];
+        tspan = text
+          .append('tspan')
+          .attr('x', x)
+          .attr('y', y)
+          .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+          .text(word);
+      }
+    }
+  });
+};
+
 const updateGraph = (data) => {
   description.text(`${data.name} by categories`);
   const categories = data.children.map((item) => item.name);
@@ -78,41 +123,6 @@ const updateGraph = (data) => {
 
   const texts = graph.selectAll('text').data(root.leaves());
 
-  const wordWrap = (text, width) => {
-    text.each(function () {
-      var text = d3.select(this),
-        words = text.text().split(/\s+/).reverse(),
-        word,
-        line = [],
-        lineNumber = 0,
-        lineHeight = 1.1, // ems
-        x = text.attr('x'),
-        y = text.attr('y'),
-        dy = 0, //parseFloat(text.attr("dy")),
-        tspan = text
-          .text(null)
-          .append('tspan')
-          .attr('x', x)
-          .attr('y', y)
-          .attr('dy', dy + 'em');
-      while ((word = words.pop())) {
-        line.push(word);
-        tspan.text(line.join(' '));
-        if (tspan.node().getComputedTextLength() > width) {
-          line.pop();
-          tspan.text(line.join(' '));
-          line = [word];
-          tspan = text
-            .append('tspan')
-            .attr('x', x)
-            .attr('y', y)
-            .attr('dy', ++lineNumber * lineHeight + dy + 'em')
-            .text(word);
-        }
-      }
-    });
-  };
-
   rects
     .enter()
     .append('rect')
@@ -122,7 +132,29 @@ const updateGraph = (data) => {
     .attr('width', (d) => d.x1 - d.x0)
     .attr('height', (d) => d.y1 - d.y0)
     .style('stroke', 'black')
-    .style('fill', (d) => colors(d.data.category));
+    .style('fill', (d) => colors(d.data.category))
+    .on('mouseover', (d, i, arr) => {
+      treeChartToolTip.transition().duration(150);
+      treeChartToolTip
+        .style('opacity', '0.9')
+        .style('top', `${d3.event.pageY - 25}px`)
+        .style('left', `${d3.event.pageX + 15}px`)
+        .style('color', 'black')
+        .style('backGround-color', () => colors(d.data.category)).html(`
+        <p>${d.data.name}</p>
+        <p>Category: ${d.data.category}</p>
+        <p>Value: ${d.data.value}</p>
+      `);
+    })
+    .on('mousemove', (d, i, arr) =>
+      treeChartToolTip
+        .style('opacity', '0.9')
+        .style('top', `${d3.event.pageY - 25}px`)
+        .style('left', `${d3.event.pageX + 15}px`)
+    )
+    .on('mouseout', () =>
+      treeChartToolTip.transition().duration(50).style('opacity', '0.0')
+    );
 
   texts
     .enter()
@@ -130,7 +162,9 @@ const updateGraph = (data) => {
     .attr('class', 'rect-text')
     .attr('x', (d) => d.x0 + 5)
     .attr('y', (d) => {
-      console.log(d.data.name);
+      if (/^Wii/.test(d.data.name)) {
+        return d.y0 + 15;
+      }
       return d.y0 + 5;
     })
     .text((d) => {
@@ -144,16 +178,7 @@ const updateGraph = (data) => {
     .attr('font-size', '9.5px')
     .attr('fill', 'black');
 
-  legendGroup.call(legend); //TODO: chunk legend and call
-  // legendGroup
-  //   .selectAll('text')
-  //   .attr('class', 'legend-text')
-  //   .text((d, i, arr) => {
-  //     if (arr.length !== i + 1) {
-  //       return d.replace(/^.+to /, '');
-  //     }
-  //   })
-  //   .attr('transform', `translate( 40, 33)`);
+  legendGroup.call(legend);
 };
 
 const handleButtonClick = (e) => {
