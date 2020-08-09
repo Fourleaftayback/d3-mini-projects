@@ -3,30 +3,61 @@ nav.navbar.navbar-expand-md.navbar-fixed-top.navbar-dark.bg-dark.main-nav
     span.navbar-toggler-icon
   .collapse.navbar-collapse#navbarNav  
     ul.nav.navbar-nav
-      li.nav-item.active
+      li.nav-item
         a.nav-link(href='#')
           i.fas.fa-home
           span  Home
     ul.nav.navbar-nav.ml-auto
-      li.nav-item
-        a.nav-link(href='/')
-          i.fas.fa-chart-bar
-          span  Bar Chart
-      li.nav-item
-        a.nav-link(href='/scatter-plot')
-          i.fas.fa-project-diagram
-          span  Scatterplot   
-      li.nav-item
-        a.nav-link(href='/heat-map')
-          i.fas.fa-fire
-          span  Heat Map 
-      li.nav-item
-        a.nav-link(href='/map-chart')
-          i.fas.fa-fire
-          span  Map Chart 
-      li.nav-item
-        a.nav-link(href='/tree-map')
-          i.fas.fa-tree
-          span  Tree-Map          
+      if (path == '/')
+        li.nav-item.active
+          a.nav-link(href='/')
+            i.fas.fa-chart-bar
+            span  Bar Chart
+      else 
+        li.nav-item
+          a.nav-link(href='/')
+            i.fas.fa-chart-bar
+            span  Bar Chart      
+      if (path == '/scatter-plot') 
+        li.nav-item.active
+          a.nav-link(href='/scatter-plot')
+            i.fas.fa-project-diagram
+            span  Scatterplot   
+      else 
+        li.nav-item
+          a.nav-link(href='/scatter-plot')
+            i.fas.fa-project-diagram
+            span  Scatterplot  
+      if (path == '/heat-map')
+        li.nav-item.active
+          a.nav-link(href='/heat-map')
+            i.fas.fa-fire
+            span  Heat Map 
+      else 
+        li.nav-item
+          a.nav-link(href='/heat-map')
+            i.fas.fa-fire
+            span  Heat Map
+      if (path == '/map-chart')
+        li.nav-item.active
+          a.nav-link(href='/map-chart')
+            i.fas.fa-fire
+            span  Map Chart 
+      else 
+        li.nav-item
+          a.nav-link(href='/map-chart')
+            i.fas.fa-fire
+            span  Map Chart      
+      if (path == '/tree-map')
+        li.nav-item.active
+          a.nav-link(href='/tree-map')
+            i.fas.fa-tree
+            pan  Tree-Map   
+      else 
+        li.nav-item
+          a.nav-link(href='/tree-map')
+            i.fas.fa-tree
+            span  Tree-Map      
+          
 
 
